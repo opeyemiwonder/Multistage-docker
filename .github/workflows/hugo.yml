@@ -16,10 +16,19 @@ jobs:
     env:
       HUGO_VERSION: 0.114.0
     steps:
+      # - name: Install Hugo CLI
+      #   run: |
+      #     wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
+      #     && sudo dpkg -i ${{ runner.temp }}/hugo.deb
+
       - name: Install Hugo CLI
         run: |
-          wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
-          && sudo dpkg -i ${{ runner.temp }}/hugo.deb
+          HUGO_VERSION="your_hugo_version_here"  # Replace with the desired Hugo version
+          wget https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_Linux-64bit.tar.gz -O /tmp/hugo.tar.gz
+          tar -xf /tmp/hugo.tar.gz -C /tmp
+          sudo mv /tmp/hugo /usr/local/bin/hugo
+          hugo version
+
       - name: Checkout
         uses: actions/checkout@v3
         # with:
