@@ -1,4 +1,4 @@
-name: Deploy Multistage Docker
+name: Deploy Hugo
 on:
   # Runs on pushes targeting the "release" branch
   push:
