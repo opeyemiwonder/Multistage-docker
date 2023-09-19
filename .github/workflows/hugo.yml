@@ -47,9 +47,9 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
-      - name: Update theme
-        # (Optional)If you have the theme added as submodule, you can pull it and use the most updated version
-        run: git submodule update --init --recursive
+      # - name: Update theme
+      #   # (Optional)If you have the theme added as submodule, you can pull it and use the most updated version
+      #   run: git submodule update --init --recursive
         
       # - name: Setup Pages
       #   id: pages
