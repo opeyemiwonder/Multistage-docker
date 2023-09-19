@@ -1,5 +1,4 @@
 name: Deploy Multistage Docker
-
 on:
   # Runs on pushes targeting the "release" branch
   push:
@@ -40,22 +39,15 @@ jobs:
           sudo mv /tmp/hugo /usr/local/bin/hugo
           hugo version
           
-      - name: Install Dart Sass
-        run: sudo snap install dart-sass
       - name: Checkout
         uses: actions/checkout@v3
         with:
           submodules: recursive
           fetch-depth: 0
-      # - name: Update theme
-      #   # (Optional)If you have the theme added as submodule, you can pull it and use the most updated version
-      #   run: git submodule update --init --recursive
-        
-      # - name: Setup Pages
-      #   id: pages
-      #   uses: actions/configure-pages@v3
+          
       - name: Install Node.js dependencies
         run: "[[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci || true"
+        
       - name: Build with Hugo
         working-directory: ./mynewsite
         env:
@@ -63,31 +55,17 @@ jobs:
           HUGO_ENVIRONMENT: production
           HUGO_ENV: production
         run: |
-          hugo
-          # hugo \
-          #   --gc \
-          #   --minify \
-          #   --baseURL "${{ steps.pages.outputs.base_url }}/"          
+          hugo         
+          
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
           path: ./mynewsite/public
-      # - name: Deploy to GitHub Pages
-      #   id: deployment
-      #   uses: actions/deploy-pages@v2
-      #   with:
-      #     # Set the branch to "release"
-      #     branch: release
           
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
-          personal_token: ${{ secrets.TOKEN }}
-          # external_repository: <username>/<username>.github.io
+          github_token: ${{ secrets.TOKEN }}
           publish_dir: ./mynewsite/public
-          #   keep_files: true
-          # user_name: <username>
-          # user_email: <username@email.com>
           publish_branch: release
         #   cname: example.com
-    
