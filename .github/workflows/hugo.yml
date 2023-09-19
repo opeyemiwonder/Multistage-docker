@@ -1,8 +1,7 @@
-# Sample workflow for building and deploying a Hugo site to GitHub Pages
-name: Deploy Hugo site to Pages
+name: Deploy Multistage Docker
 
 on:
-  # Runs on pushes targeting the default branch
+  # Runs on pushes targeting the "release" branch
   push:
     branches:
       - release
@@ -28,18 +27,13 @@ defaults:
     shell: bash
 
 jobs:
-  # Build job
-  build:
+  deploy:
     runs-on: ubuntu-latest
     env:
       HUGO_VERSION: 0.88.1
     steps:
       - name: Install Hugo CLI
         run: |
-          # wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v$0.88.1/hugo_extended_$0.88.1_linux-amd64.deb \
-          # && sudo dpkg -i ${{ runner.temp }}/hugo.deb  
-          # - wget -q -O hugo.deb https://github.com/gohugoio/hugo/releases/download/v0.46/hugo_extended_0.46_Linux_64bit.deb
-          # - sudo dpkg -i hugo.deb
           HUGO_VERSION="0.88.1"  # Replace with the desired Hugo version
           wget https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_Linux-64bit.tar.gz -O /tmp/hugo.tar.gz
           tar -xf /tmp/hugo.tar.gz -C /tmp
@@ -72,15 +66,9 @@ jobs:
         uses: actions/upload-pages-artifact@v1
         with:
           path: ./public
-
-  # Deployment job
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
+        with:
+          # Set the branch to "release"
+          branch: release
