@@ -38,8 +38,14 @@ jobs:
         run: |
           # wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v$0.88.1/hugo_extended_$0.88.1_linux-amd64.deb \
           # && sudo dpkg -i ${{ runner.temp }}/hugo.deb  
-          - wget -q -O hugo.deb https://github.com/gohugoio/hugo/releases/download/v0.46/hugo_extended_0.46_Linux_64bit.deb
-          - sudo dpkg -i hugo.deb
+          # - wget -q -O hugo.deb https://github.com/gohugoio/hugo/releases/download/v0.46/hugo_extended_0.46_Linux_64bit.deb
+          # - sudo dpkg -i hugo.deb
+          HUGO_VERSION="0.88.1"  # Replace with the desired Hugo version
+          wget https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_Linux-64bit.tar.gz -O /tmp/hugo.tar.gz
+          tar -xf /tmp/hugo.tar.gz -C /tmp
+          sudo mv /tmp/hugo /usr/local/bin/hugo
+          hugo version
+          
       - name: Install Dart Sass
         run: sudo snap install dart-sass
       - name: Checkout
