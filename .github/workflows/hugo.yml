@@ -53,8 +53,8 @@ jobs:
       - name: Install Node.js dependencies
         run: "[[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci || true"
       - name: Build with Hugo
-        if: ${{ github.ref == 'refs/heads/release' }}
-        working-directory: ./mynewsite/hugo
+        # if: ${{ github.ref == 'refs/heads/release' }}
+        working-directory: ./mynewsite
         env:
           # For maximum backward compatibility with Hugo modules
           HUGO_ENVIRONMENT: production
